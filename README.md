@@ -21,20 +21,45 @@ Only requirements is to use a terminal that accepts ANSI codes and the tty comma
 require "rainbow"
 ```
 
-TODO: Write usage instructions here
+Rainbow works with it's own "rainbow codes" this is just a way to tell Rainbow what color or background to use on differente ways
+For example:
+- #|orange| => Makes the text to the right orange
+- #|bg_cyan| => Makes the background of the text on the right cyan
+- #|rgb0,0,0| => Makes the text on the right black, passed as 255 rgb code
+- #|bg_rgb,255,255,255| => Makes the background white to the text on the right trough rgb
+- #|default| and #|bg_default| reset colors to the original of the terminal
+
+#### Printing colorful text
+
+```crystal
+require "rainbow"
+
+Rainbow.print "#|orange|Hello, #|rgb54,78,34|World!, #|bg_blue|How are #|bg_rgb 45, 76, 90|you?"
+```
+- You can use a wrapper function to shorten the print call
+
+#### Printing a box
+```crystal
+require "rainbow"
+
+box = Rainbow::Box.new(text : "This time #|red|for me!")
+
+Rainbow.print(box)
+```
+A box can be customized on diferent ways, you can read on this on the "src/box.cr" file
+
+#### Other renderables
+There is also a padding renderable, an align renderable and a Rule function within the shard/module
 
 ## Development
 
-TODO: Write development instructions here
+I have many ideas on what to do with this but I do develop this shard on my free time so expect mostly updates so that it can always function and sometimes big updates with new renderables and options.
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/rainbow/fork>)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+If possible try to contact me to what you'll like so that I can try to add it to the shard.
+If not possible fork this repository and do as you wish.
 
 ## Contributors
 
-- [your-name-here](https://github.com/your-github-user) - creator and maintainer
+- [JuipoMinutes](https://github.com/JuipoMinutes) - creator and maintainer
