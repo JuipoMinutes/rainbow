@@ -1,0 +1,9 @@
+name: rainbow
+version: 0.1.0
+
+authors:
+  - JuipoMinutes 
+
+crystal: '>= 1.13.1'
+
+license: MIT

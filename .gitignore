@@ -1,0 +1,12 @@
+/docs/
+/lib/
+/bin/
+/.shards/
+*.dwarf
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in applications that use them
+/shard.lock
+/src/testy.cr
+/src/min_test.cr
+/spec/
