@@ -20,18 +20,59 @@ class Rainbow::Align < Rainbow::Renderable
 
     # Renders the text depending on the alignment
     def render(console : Rainbow::Console) : String
-        text_size = @text.size
-        rainbow_codes = @text.scan(/#(\|[^|]+\|)/).each do |code|
-            text_size -= code.to_s.size
-        end
-        case @align
-        when "right"
-            return " " * (console.con_conf.cols - text_size) + @text
-        when "center"
-            return " " * ((console.con_conf.cols - text_size) // 2) + @text + (" " * ((console.con_conf.cols - text_size) // 2))
+        width = console.con_conf.cols
+        text_copy = @text
+        if text_copy.includes?("\n")
+            lines = text_copy.split("\n")
         else
-            return @text + (" " * (console.con_conf.cols - text_size))
-        end 
+            lines = [text_copy]
+        end
+        bg_code = "#|bg_default|"
+        code = "#|default|"
+        to_return = ""
+        lines.each do |line|
+            words = ""
+            words2 = code + bg_code
+            coder = ""
+            idx_to_finish = -1
+            to_count = true
+            deleted_chars = 0
+            line.size.times do |i|
+                words2 += line[i]
+                if line[i] == '#'
+                    if line[i+1] == '|' && line[i-1] != '/'
+                        to_count = false
+                        idx_to_finish=line[i+2..-1].index!("|")+i+2
 
+                        coder = line[i..i+idx_to_finish]
+                        if coder.includes?("bg_")
+                            bg_code = coder
+                        else
+                            code = coder
+                        end
+                    elsif line[i-1] == '/'
+                        deleted_chars += 1
+                    end
+                end
+
+                if to_count
+                    words += line[i]
+                end
+                if i == idx_to_finish
+                    to_count = true
+                end
+            end
+            case @align
+            when "center"
+                to_return += (" " * ((width - (words.size - deleted_chars)) // 2)) + words2
+            when "right"
+                to_return += (" " * (width - (words.size - deleted_chars))) + words2
+            else
+                to_return += words2
+            end
+            to_return += "\n"
+        end
+        return to_return
     end
+
 end

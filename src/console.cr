@@ -1,4 +1,3 @@
-require "./tty"
 require "./con_conf"
 require "./ansi_converter"
 require "./renderable"
@@ -7,17 +6,13 @@ require "./renderable"
 # It includes a method to print text in the console and a method to print a "rule"(horizontal line) in the terminal
 # It uses the tty linux command to get the terminal file
 class Rainbow::Console
-    property tty_file : String
     property con_conf : Rainbow::CONCOF
     property ansi_parser : Rainbow::Ansi_converter
-    property fily : File
 
     # Initializes the Console class
     # It gets the tty file, the console configuration, and the ansi parser
     def initialize
-        @tty_file = Rainbow::TTY.new.get_tty_file
         @con_conf = Rainbow::CONCOF.new
-        @fily = File.new(@tty_file, mode: "w+", blocking: false)
         @ansi_parser = Rainbow::Ansi_converter.new(@con_conf.color)
     end
 
@@ -31,8 +26,7 @@ class Rainbow::Console
         else
             text = object
         end
-        @fily.print(@ansi_parser.convert(text) + ending)
-        @fily.flush
+        STDOUT.print(@ansi_parser.convert(text) + ending)
     end
 
     # Prints a "rule"(horizontal line) in the terminal
@@ -47,10 +41,5 @@ class Rainbow::Console
         self.print(rule_ansi)
     end
 
-    # Clears the WHOLE terminal
-    def clear
-        @fily.print("\e[2J\e[H")
-        @fily.flush
-    end
 end
         

@@ -116,8 +116,13 @@ class Rainbow::Ansi_converter
                         ansi_text += word_to_ansi(color_word, is_bg)
                     end
                     ansi_text += word.split("|")[1]
-                else
+                elsif word.ends_with?("/") && take_on_count
                     ansi_text += word
+                elsif take_on_count
+                    ansi_text += word
+                    take_on_count = true
+                else
+                    ansi_text += "#|#{word}"
                     take_on_count = true
                 end
                 if ansi_text.ends_with?("/")

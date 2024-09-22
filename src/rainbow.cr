@@ -4,7 +4,6 @@ require "./con_conf"
 require "./console"
 require "./padding"
 require "./renderable"
-require "./tty"
 require "./box"
 
 # "Rainbow" a module to print colored text in the console, including boxes, padding, and alignment
